@@ -1,0 +1,8 @@
+SI Units:
+Distance = AU (Astronomical unit)
+Mass = M_s (Solar mass)
+Time = s (Unchanged)
+
+Constant:
+G = 3.965e-12
+c = 2.004e-3
