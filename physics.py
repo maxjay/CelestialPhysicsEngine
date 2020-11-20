@@ -1,4 +1,5 @@
 from scipy import constants
+from vector import Vector
 
 G = constants.gravitational_constant
 c = constants.speed_of_light
@@ -11,25 +12,29 @@ class Physics:
         self.objects.append(planet)
 
     @staticmethod
-    def componentForce(resultantForce):
-        return 1,1
-
-    @staticmethod
     def gravitationalForce(planetA, planetB):
-        return 1
-
-    def updatePos(self, resultForce, planet):
-        planet.vx, planet.vy = Physics.componentForce(resultForce)
-
-    def applyForces(self, forces):
-        for force, planet in zip(forces, self.objects):
-            self.updatePos(force, planet)
+        r = planetA.pos - planetB.pos
+        d = abs(r)
+        if d == 0:
+            return Vector()
+        return ((G*planetA.mass*planetB.mass)/d**2) * r
 
     def compute(self):
-        forces = [0 for i in xrange(len(self.objects))]
-        for i in xrange(len(self.objects)):
+        for i in range(len(self.objects)):
+            force = Vector(0,0)
             a = self.objects[i]
-            for j in xrange(i+1, len(self.objects)):
-                forces[i] += self.gravitationalForce(a, self.objects[j])
-        self.applyForces(forces)
+            for j in range(len(self.objects)):
+                force += self.gravitationalForce(a, self.objects[j])
+            a.pos += force
 
+    def __str__(self):
+        return str("\n".join([str(i) for i in self.objects]))
+
+if __name__ == "__main__":
+    from planet import Planet, Star
+    a = Physics()
+    a.addPlanet(Planet(1,1,1,1,0,0,0))
+    a.addPlanet(Planet(1,1,3,3,0,0,0))
+    print(a)
+    a.compute()
+    print(a)
