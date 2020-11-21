@@ -8,6 +8,7 @@ class Planet:
         self.speed = Vector(vx, vy)
         self.color = color
         self.charge = charge
+        self.trail = []
 
     def __str__(self):
         return f'[Size: {self.size}, Mass: {self.mass}, Pos: {self.pos}, Speed: {self.speed}, Charge: {self.charge}]'

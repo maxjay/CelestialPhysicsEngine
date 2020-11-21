@@ -62,6 +62,9 @@ class Vector:
         yield self.x
         yield self.y
 
+    def copy(self):
+        return Vector(self.x, self.y)
+
 if __name__ == "__main__":
     a = Vector(2,2)
     b = Vector(1,1)

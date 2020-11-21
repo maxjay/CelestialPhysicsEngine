@@ -6,7 +6,7 @@ AU = 1.496e11
 c = constants.speed_of_light
 G = constants.gravitational_constant
 time_scale = 21600
-distance_scale = AU/250
+distance_scale = AU/10000
 #G = (6.674e-11 * time_scale**2) / distance_scale**3
 
 class Physics:
@@ -34,7 +34,10 @@ class Physics:
             force = force * time_scale**2
             a.speed += force/a.mass
         for a in self.objects:
+            if len(a.trail) > 512:
+                a.trail = a.trail[1:]
             a.pos += a.speed 
+            a.trail.append(a.pos.copy())
 
     def __str__(self):
         return str("\n".join([str(i) for i in self.objects]))
