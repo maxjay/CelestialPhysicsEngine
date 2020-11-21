@@ -20,6 +20,12 @@ class Vector:
     def __rmul__(self, y):
         return Vector(self.x * y, self.y * y)
 
+    def __truediv__(self, y):
+        return Vector(self.x / y, self.y / y)
+    
+    def __rtruediv__(self, y):
+        return Vector(self.x / y, self.y / y)
+
     def __iadd__(self, v):
         self.x += v.x
         self.y += v.y
@@ -51,6 +57,10 @@ class Vector:
             return self.y
         else:
             raise IndexError
+
+    def __iter__(self):
+        yield self.x
+        yield self.y
 
 if __name__ == "__main__":
     a = Vector(2,2)

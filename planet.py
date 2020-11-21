@@ -1,11 +1,12 @@
 from vector import Vector
 
 class Planet:
-    def __init__(self, size, mass, x=0, y=0, vx=0, vy=0, charge=0):
+    def __init__(self, size, mass, x=0, y=0, vx=0, vy=0, color=(255, 255, 0), charge=0):
         self.size = size
         self.mass = mass
         self.pos = Vector(x, y)
         self.speed = Vector(vx, vy)
+        self.color = color
         self.charge = charge
 
     def __str__(self):

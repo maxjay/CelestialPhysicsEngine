@@ -6,3 +6,25 @@ Time = s (Unchanged)
 Constant:
 G = 3.965e-12
 c = 2.004e-3
+
+
+s += a (= force/mass)
+
+
+force = kgms^-2
+force * speed_scale^2
+
+speed_scale = 21600**2
+
+
+1 frame = 1 hour
+
+
+
+
+100 pixels = 1 AU
+100 pixels = 1.496e^11 meters
+=> 1 pixel = 1.496e^9 meters
+
+
+km/s => km/hour * 6
