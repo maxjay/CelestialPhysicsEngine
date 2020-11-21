@@ -5,8 +5,8 @@ AU = 1.496e11
 
 c = constants.speed_of_light
 G = constants.gravitational_constant
-time_scale = 21600
-distance_scale = AU/10000
+time_subdiv = 50
+time_scale = 21600/time_subdiv
 #G = (6.674e-11 * time_scale**2) / distance_scale**3
 
 class Physics:
@@ -24,7 +24,7 @@ class Physics:
             return Vector()
         return ((G*planetA.mass*planetB.mass)/d**2) * (r/d)
 
-    def compute(self):
+    def compute(self, update_trail=False):
         for i in range(len(self.objects)):
             force = Vector(0,0)
             a = self.objects[i]
@@ -34,10 +34,11 @@ class Physics:
             force = force * time_scale**2
             a.speed += force/a.mass
         for a in self.objects:
-            if len(a.trail) > 512:
-                a.trail = a.trail[1:]
-            a.pos += a.speed 
-            a.trail.append(a.pos.copy())
+            a.pos += a.speed
+            if update_trail:
+                if len(a.trail) > 512:
+                    a.trail = a.trail[1:]
+                a.trail.append(a.pos.copy())
 
     def __str__(self):
         return str("\n".join([str(i) for i in self.objects]))
