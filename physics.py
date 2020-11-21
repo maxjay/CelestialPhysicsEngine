@@ -12,6 +12,7 @@ time_scale = 21600/time_subdiv
 class Physics:
     def __init__(self):
         self.objects = []
+        self.time_scale = time_scale
 
     def addPlanet(self, planet):
         self.objects.append(planet)
@@ -31,7 +32,7 @@ class Physics:
             for j in range(len(self.objects)):
                 force -= self.gravitationalForce(a, self.objects[j])
             #force = (force / distance_scale) * time_scale**2
-            force = force * time_scale**2
+            force = force * self.time_scale**2
             a.speed += force/a.mass
         for a in self.objects:
             a.pos += a.speed
@@ -39,6 +40,11 @@ class Physics:
                 if len(a.trail) > 512:
                     a.trail = a.trail[1:]
                 a.trail.append(a.pos.copy())
+
+    def update_time_scale(self, time_scale):
+        for a in self.objects:
+            a.speed *= time_scale/self.time_scale
+        self.time_scale = time_scale
 
     def __str__(self):
         return str("\n".join([str(i) for i in self.objects]))

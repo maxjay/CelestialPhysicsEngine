@@ -1,5 +1,8 @@
 import math
 
+def lerp(a, b, t):
+    return a + (b-a)*t
+
 class Vector:
     def __init__(self, x=0, y=0):
         self.x = x
@@ -10,19 +13,19 @@ class Vector:
 
     def __add__(self, v):
         return Vector(self.x+v.x, self.y+v.y)
-    
+
     def __sub__(self, v):
         return Vector(self.x-v.x, self.y-v.y)
 
     def __mul__(self, y):
         return Vector(self.x * y, self.y * y)
-    
+
     def __rmul__(self, y):
         return Vector(self.x * y, self.y * y)
 
     def __truediv__(self, y):
         return Vector(self.x / y, self.y / y)
-    
+
     def __rtruediv__(self, y):
         return Vector(self.x / y, self.y / y)
 
@@ -41,6 +44,9 @@ class Vector:
 
     def __abs__(self):
         return math.sqrt(self.x ** 2 + self.y ** 2)
+
+    def lerp(self, other, t):
+        return Vector(lerp(self.x, other.x, t), lerp(self.y, other.y, t))
 
     def __setitem__(self, index, value):
         if index == 0:

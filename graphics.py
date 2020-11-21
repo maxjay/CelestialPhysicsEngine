@@ -17,6 +17,8 @@ class Simulate(Physics):
     def __init__(self):
         super().__init__()
         self.tracking = 0
+        self.last_tracking = 0
+        self.tracking_progress = 0
 
     def populate(self):
         self.addPlanet(Planet(7.149e7, 1.89819e27, -740.52e9, 0, 0, 13720*time_scale, (238, 178, 123))) # Jupiter
@@ -37,11 +39,16 @@ class Simulate(Physics):
         self.tracking = len(self.objects)-1
 
     def draw(self, screen):
-        offset = self.objects[self.tracking].pos/distance_scale - Vector(WIDTH/2, HEIGHT/2)
+        offset_pos = self.objects[self.tracking].pos
+        if self.tracking != self.last_tracking:
+            self.tracking_progress += 0.02
+            if self.tracking_progress >= 1:
+                self.tracking_progress = 0
+                self.last_tracking = self.tracking
+            else:
+                offset_pos = self.objects[self.last_tracking].pos.lerp(self.objects[self.tracking].pos, math.sin(self.tracking_progress*math.pi/2))
+        offset = offset_pos/distance_scale - Vector(WIDTH/2, HEIGHT/2)
         screen.fill((0, 0, 0))
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
         for planet in self.objects:
             #print(tuple(((planet.pos)/distance_scale)-offset))
             for i in range(len(planet.trail)-1):
@@ -54,7 +61,7 @@ def update_scales():
     planet_scale = distance_scale/10000
 
 def main():
-    global distance_scale
+    global distance_scale, time_scale
     pygame.init()
     screen = pygame.display.set_mode([WIDTH, HEIGHT])
     running = True
@@ -66,11 +73,18 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEWHEEL:
-                if event.y > 0:
-                    distance_scale *= 2
+                if pygame.key.get_mods() & pygame.KMOD_CTRL:
+                    if event.y > 0:
+                        time_scale *= 1.5
+                    else:
+                        time_scale /= 1.5
+                    sim.update_time_scale(time_scale)
                 else:
-                    distance_scale /= 2
-                update_scales()
+                    if event.y > 0:
+                        distance_scale *= 2
+                    else:
+                        distance_scale /= 2
+                    update_scales()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_TAB:
                     if event.mod & pygame.KMOD_SHIFT:
