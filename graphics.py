@@ -60,7 +60,7 @@ class Simulate(Physics):
             #print(tuple(((planet.pos)/distance_scale)-offset))
             for i in range(len(planet.trail)-1):
                 # trail_offset = [trail_tracking.trail[i], trail_tracking.trail[i+1]]
-                pygame.draw.line(screen, tuple((j*(i/512) for j in planet.color)), tuple(self._offset_trail(planet, i, offset_pos)/distance_scale+CENTER), tuple(self._offset_trail(planet, i+1, offset_pos)/distance_scale+CENTER), 1)
+                pygame.draw.aaline(screen, tuple((j*(i/512) for j in planet.color)), tuple(self._offset_trail(planet, i, offset_pos)/distance_scale+CENTER), tuple(self._offset_trail(planet, i+1, offset_pos)/distance_scale+CENTER), 1)
             pygame.draw.circle(screen, planet.color, tuple(((planet.pos-offset_pos)/distance_scale)+CENTER), max(math.log(planet.size/planet_scale), 1))
         pygame.display.flip()
 
